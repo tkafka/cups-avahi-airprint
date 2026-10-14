@@ -1,5 +1,29 @@
 # chuckcharlie/cups-avahi-airprint
 
+> **About this fork (tkafka/cups-avahi-airprint):** upstream plus two opt-in options, proposed upstream in [chuckcharlie/cups-avahi-airprint#59](https://github.com/chuckcharlie/cups-avahi-airprint/pull/59):
+>
+> * `USE_HOST_AVAHI=true` registers printers with the host's `avahi-daemon` instead of running a second one in the container, for NAS hosts that need their own Avahi (see [Running on a NAS](#running-on-a-nas)).
+> * `DEFAULT_PAPER_SIZE` (e.g. `A4`) replaces the baked-in Letter default for new printers.
+>
+> No image is published for this fork; build it straight from git in your compose file:
+>
+> ```yaml
+> services:
+>   cups:
+>     build: https://github.com/tkafka/cups-avahi-airprint.git#master
+>     image: cups-avahi-airprint:fork
+>     pull_policy: build  # local-only image, don't try to pull it
+>     network_mode: host
+>     environment:
+>       USE_HOST_AVAHI: "true"
+>       DEFAULT_PAPER_SIZE: A4
+>     volumes:
+>       - ./config:/config
+>       - /run/dbus:/run/host-dbus:ro
+> ```
+>
+> Once the PR is merged, switch back to the official `chuckcharlie/cups-avahi-airprint` image.
+
 Fork from [quadportnick/docker-cups-airprint](https://github.com/quadportnick/docker-cups-airprint)
 
 **Docker Hub:** [hub.docker.com/r/chuckcharlie/cups-avahi-airprint](https://hub.docker.com/r/chuckcharlie/cups-avahi-airprint) — `docker pull chuckcharlie/cups-avahi-airprint:latest`
